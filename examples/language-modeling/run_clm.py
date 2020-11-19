@@ -19,6 +19,7 @@ Here is the full list of checkpoints on the hub that can be fine-tuned by this s
 https://huggingface.co/models?filter=causal-lm
 """
 # You can also adapt this script on your own causal language modeling task. Pointers for this are left as comments.
+import glob
 
 import logging
 import math
@@ -191,12 +192,13 @@ def main():
     else:
         data_files = {}
         if data_args.train_file is not None:
-            data_files["train"] = data_args.train_file
+            data_files["train"] = glob.glob(data_args.train_file)
         if data_args.validation_file is not None:
             data_files["validation"] = data_args.validation_file
-        extension = data_args.train_file.split(".")[-1]
-        if extension == "txt":
-            extension = "text"
+        #extension = data_args.train_file.split(".")[-1]
+        #if extension == "txt":
+        #    extension = "text"
+        extension = "text"
         datasets = load_dataset(extension, data_files=data_files)
     # See more about loading any type of standard or custom dataset (from files, python dict, pandas DataFrame, etc) at
     # https://huggingface.co/docs/datasets/loading_datasets.html.
